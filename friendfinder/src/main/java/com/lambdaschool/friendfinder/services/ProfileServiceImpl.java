@@ -55,6 +55,9 @@ public class ProfileServiceImpl implements ProfileService {
 
         newProfile.setUser(u);
 
+        u.setProfile(newProfile);
+        userrepos.save(u);
+
         return profilerepos.save(newProfile);
     }
 

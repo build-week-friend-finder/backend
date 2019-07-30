@@ -1,8 +1,7 @@
 package com.lambdaschool.friendfinder;
 
-import com.lambdaschool.friendfinder.models.Role;
-import com.lambdaschool.friendfinder.models.User;
-import com.lambdaschool.friendfinder.models.UserRoles;
+import com.lambdaschool.friendfinder.models.*;
+import com.lambdaschool.friendfinder.services.ProfileService;
 import com.lambdaschool.friendfinder.services.RoleService;
 import com.lambdaschool.friendfinder.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,9 @@ public class SeedData implements CommandLineRunner
     @Autowired
     UserService userService;
 
+    @Autowired
+    ProfileService profileService;
+
 
     @Override
     public void run(String[] args) throws Exception
@@ -34,12 +36,30 @@ public class SeedData implements CommandLineRunner
         roleService.save(r2);
         roleService.save(r3);
 
+        // prepopulating interests, can be changed
+        Interests i1 = new Interests("Basketball");
+        Interests i2 = new Interests("Hiking");
+        Interests i3 = new Interests("Video Games");
+        Interests i4 = new Interests("Drinking");
+        Interests i5 = new Interests("KPOP");
+        Interests i6 = new Interests("Travelling");
+
+        // prepopulating interests for profiles
+        ArrayList<Interests> u1Interests = new ArrayList<>();
+        u1Interests.add(i1);
+        u1Interests.add(i4);
+
+        // prepopulating profiles
+        Profile p1 = new Profile("Jack", "M", "Ever take the chance to think 'Why am I here?'", u1Interests);
+
+
         // admin, data, user
         ArrayList<UserRoles> admins = new ArrayList<>();
         admins.add(new UserRoles(new User(), r1));
         admins.add(new UserRoles(new User(), r2));
         admins.add(new UserRoles(new User(), r3));
         User u1 = new User("admin", "password", admins);
+        u1.setProfile(p1);
         userService.save(u1);
 
         // data, user
@@ -65,6 +85,6 @@ public class SeedData implements CommandLineRunner
         User u5 = new User("Jane", "password", users);
         userService.save(u5);
 
-
+        profileService.save(p1, 4);
     }
 }

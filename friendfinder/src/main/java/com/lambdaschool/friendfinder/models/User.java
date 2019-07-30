@@ -36,6 +36,7 @@ public class User extends Auditable
     @JoinTable(name = "profile",
             joinColumns = { @JoinColumn(name = "userid", referencedColumnName = "userid") },
             inverseJoinColumns = { @JoinColumn(name = "profileid", referencedColumnName = "profileid") })
+    @JsonIgnoreProperties("user")
     private Profile profile;
 
     public User()

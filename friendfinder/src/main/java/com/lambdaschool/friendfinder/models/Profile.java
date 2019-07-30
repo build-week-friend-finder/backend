@@ -22,6 +22,7 @@ public class Profile extends Auditable {
     private List<Interests> interests = new ArrayList<>();
 
     @OneToOne(mappedBy = "profile")
+    @JsonIgnoreProperties("profile")
     private User user;
 
     public Profile() {
