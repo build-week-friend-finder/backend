@@ -32,6 +32,12 @@ public class User extends Auditable
     @JsonIgnoreProperties("user")
     private List<UserRoles> userRoles = new ArrayList<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "profile",
+            joinColumns = { @JoinColumn(name = "userid", referencedColumnName = "userid") },
+            inverseJoinColumns = { @JoinColumn(name = "profileid", referencedColumnName = "profileid") })
+    private Profile profile;
+
     public User()
     {
     }
@@ -104,5 +110,13 @@ public class User extends Auditable
         }
 
         return rtnList;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }

@@ -4,7 +4,6 @@ import com.lambdaschool.friendfinder.exceptions.ResourceNotFoundException;
 import com.lambdaschool.friendfinder.models.Interests;
 import com.lambdaschool.friendfinder.repository.InterestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
