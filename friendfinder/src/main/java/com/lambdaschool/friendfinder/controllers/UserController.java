@@ -2,6 +2,7 @@ package com.lambdaschool.friendfinder.controllers;
 
 import com.lambdaschool.friendfinder.models.User;
 import com.lambdaschool.friendfinder.services.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,6 @@ public class UserController
         return new ResponseEntity<>(myUsers, HttpStatus.OK);
     }
 
-
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/user/{userId}",
                 produces = {"application/json"})
@@ -53,7 +53,6 @@ public class UserController
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
-
     @GetMapping(value = "/getusername",
                 produces = {"application/json"})
     @ResponseBody
@@ -64,6 +63,14 @@ public class UserController
         return new ResponseEntity<>(authentication.getPrincipal(), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Return current user", response = User.class)
+    @GetMapping(value = "/currentuser",
+            produces = {"application/json"})
+    @ResponseBody
+    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
+        User u = userService.findUserByName(authentication.getName());
+        return new ResponseEntity<>(u, HttpStatus.OK);
+    }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(value = "/user",

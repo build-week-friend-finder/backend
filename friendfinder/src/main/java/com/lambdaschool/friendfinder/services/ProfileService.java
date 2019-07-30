@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public interface ProfileService {
     ArrayList<Profile> findAll(Pageable pageable);
 
-    Profile findProfileById(long id);
+    Profile findProfileById(long userid);
 
-    Profile save(Profile profile);
+    Profile save(Profile profile, long userid);
 
-    Profile update(Profile user, long id);
+    Profile update(Profile profile, long userid);
 }
