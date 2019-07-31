@@ -14,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({"authority", "userRoles"})
 public class User extends Auditable
 {
     @Id
@@ -31,7 +32,6 @@ public class User extends Auditable
     @OneToMany(mappedBy = "user",
                cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
-    @JsonIgnore
     private List<UserRoles> userRoles = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
