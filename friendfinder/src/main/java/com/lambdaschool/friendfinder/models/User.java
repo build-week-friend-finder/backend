@@ -1,5 +1,6 @@
 package com.lambdaschool.friendfinder.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,6 +31,7 @@ public class User extends Auditable
     @OneToMany(mappedBy = "user",
                cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
+    @JsonIgnore
     private List<UserRoles> userRoles = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)

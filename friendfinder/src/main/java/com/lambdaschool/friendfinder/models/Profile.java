@@ -17,8 +17,11 @@ public class Profile extends Auditable {
     private String gender;
     private String description;
 
-    @OneToMany(mappedBy = "profile")
-    @JsonIgnoreProperties("profile")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "profileinterests",
+            joinColumns = {@JoinColumn(name = "profileid")},
+            inverseJoinColumns = {@JoinColumn(name = "interestsid")})
+    @JsonIgnoreProperties({"profile", "profiles"})
     private List<Interests> interests = new ArrayList<>();
 
     @OneToOne(mappedBy = "profile")

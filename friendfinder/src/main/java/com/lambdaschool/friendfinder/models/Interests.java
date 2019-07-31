@@ -3,6 +3,8 @@ package com.lambdaschool.friendfinder.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "interests")
@@ -14,10 +16,9 @@ public class Interests extends Auditable{
     private String interestname;
     private Boolean selected;
 
-    @ManyToOne
-    @JoinColumn(name = "profileid")
-    @JsonIgnoreProperties("interests")
-    private Profile profile;
+    @ManyToMany(mappedBy = "interests", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"interests", "profiles"})
+    private List<Profile> profiles = new ArrayList<>();
 
     public Interests() {
     }
@@ -27,11 +28,11 @@ public class Interests extends Auditable{
         this.selected = false;
     }
 
-    public long getId() {
+    public long getInterestsid() {
         return interestsid;
     }
 
-    public void setId(long interestsid) {
+    public void setInterestsid(long interestsid) {
         this.interestsid = interestsid;
     }
 
@@ -49,5 +50,13 @@ public class Interests extends Auditable{
 
     public void setSelected(Boolean selected) {
         this.selected = selected;
+    }
+
+    public List<Profile> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(List<Profile> profiles) {
+        this.profiles = profiles;
     }
 }

@@ -1,6 +1,7 @@
 package com.lambdaschool.friendfinder;
 
 import com.lambdaschool.friendfinder.models.*;
+import com.lambdaschool.friendfinder.services.InterestsService;
 import com.lambdaschool.friendfinder.services.ProfileService;
 import com.lambdaschool.friendfinder.services.RoleService;
 import com.lambdaschool.friendfinder.services.UserService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Transactional
 @Component
@@ -23,6 +25,9 @@ public class SeedData implements CommandLineRunner
 
     @Autowired
     ProfileService profileService;
+
+    @Autowired
+    InterestsService interestsService;
 
 
     @Override
@@ -43,9 +48,15 @@ public class SeedData implements CommandLineRunner
         Interests i4 = new Interests("Drinking");
         Interests i5 = new Interests("KPOP");
         Interests i6 = new Interests("Travelling");
+        interestsService.save(i1);
+        interestsService.save(i2);
+        interestsService.save(i3);
+        interestsService.save(i4);
+        interestsService.save(i5);
+        interestsService.save(i6);
 
         // prepopulating interests for profiles
-        ArrayList<Interests> u1Interests = new ArrayList<>();
+        List<Interests> u1Interests = new ArrayList<>();
         u1Interests.add(i1);
         u1Interests.add(i4);
 
@@ -85,6 +96,6 @@ public class SeedData implements CommandLineRunner
         User u5 = new User("Jane", "password", users);
         userService.save(u5);
 
-        profileService.save(p1, 4);
+        profileService.save(p1, 10);
     }
 }
