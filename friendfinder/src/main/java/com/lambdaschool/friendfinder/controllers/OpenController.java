@@ -1,9 +1,13 @@
 package com.lambdaschool.friendfinder.controllers;
 
+import com.lambdaschool.friendfinder.models.ErrorDetail;
 import com.lambdaschool.friendfinder.models.User;
 import com.lambdaschool.friendfinder.models.UserRoles;
 import com.lambdaschool.friendfinder.services.RoleService;
 import com.lambdaschool.friendfinder.services.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +36,12 @@ public class OpenController
     @Autowired
     private RoleService roleService;
 
+    @ApiOperation(value = "Creates a new User. If you need to add a Profile to User, go to a Profile endpoint.", notes = "The newly created studentid will be sent in the location header.", response = void.class)
+    @ApiResponses(value =  {
+            @ApiResponse(code = 201, message = "User Created", response = void.class),
+            @ApiResponse(code = 400, message = "Need Valid User Object", response = ErrorDetail.class),
+            @ApiResponse(code = 500, message = "Error Creating User", response = ErrorDetail.class)
+    })
     @PostMapping(value = "/createnewuser",
                  consumes = {"application/json"},
                  produces = {"application/json"})

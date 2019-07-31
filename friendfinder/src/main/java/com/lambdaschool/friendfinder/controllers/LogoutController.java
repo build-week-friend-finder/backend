@@ -1,5 +1,6 @@
 package com.lambdaschool.friendfinder.controllers;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -17,6 +18,7 @@ public class LogoutController
     @Autowired
     private TokenStore tokenStore;
 
+    @ApiOperation(value = "Logs User out by removing token.", response = void.class)
     @RequestMapping(value = "/oauth/revoke-token",
                     method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)

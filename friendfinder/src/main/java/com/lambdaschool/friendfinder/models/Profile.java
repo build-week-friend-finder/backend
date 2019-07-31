@@ -1,20 +1,32 @@
 package com.lambdaschool.friendfinder.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel(value = "Profile", description = "The Profile Entity")
 @Entity
 @Table(name = "profiles")
 public class Profile extends Auditable {
+    @ApiModelProperty(name = "profileid", value = "Primary Key for Profile", required = true, example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long profileid;
 
+    @ApiModelProperty(name = "name", value = "Name of Profile", required = true, example = "John")
+    @Column(nullable = false)
     private String name;
+
+    @ApiModelProperty(name = "gender", value = "Gender of Profile", required = true, example = "M")
+    @Column(nullable = false)
     private String gender;
+
+    @ApiModelProperty(name = "description", value = "Description of Profile", required = true, example = "This is my new profile!")
+    @Column(nullable = false)
     private String description;
 
     @ManyToMany(cascade = CascadeType.ALL)

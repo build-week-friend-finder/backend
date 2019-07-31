@@ -20,7 +20,17 @@ public class Swagger2Config
     {
         return new Docket(DocumentationType.SWAGGER_2).select()
                 //                .apis(RequestHandlerSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.lambdaschool.friendfinder")).paths(PathSelectors.any()).build().useDefaultResponseMessages(false) // Allows only my exception responses
+                .apis(RequestHandlerSelectors.basePackage("com.lambdaschool.friendfinder"))
+                .paths(input ->
+                        !PathSelectors.regex("/oauth/confirm_access.*").apply(input) &&
+                                !PathSelectors.regex("/oauth/authorize.*").apply(input) &&
+                                !PathSelectors.regex("/oauth/check_token.*").apply(input) &&
+                                !PathSelectors.regex("/oauthconfirm_acccess.*").apply(input) &&
+                                !PathSelectors.regex("/oauth/error.*").apply(input) &&
+                                !PathSelectors.regex("/actuator.*").apply(input) &&
+                                !PathSelectors.regex("/error.*").apply(input) &&
+                                PathSelectors.any().apply(input))
+                .build().useDefaultResponseMessages(false) // Allows only my exception responses
                 .ignoredParameterTypes(Pageable.class) // allows only my paging parameter list
                 .apiInfo(apiEndPointsInfo());
     }

@@ -1,8 +1,11 @@
 package com.lambdaschool.friendfinder.controllers;
 
+import com.lambdaschool.friendfinder.models.ErrorDetail;
 import com.lambdaschool.friendfinder.models.User;
 import com.lambdaschool.friendfinder.services.UserService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,7 @@ public class UserController
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "Returns All Users", responseContainer = "List")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/users",
                 produces = {"application/json"})
@@ -40,6 +44,11 @@ public class UserController
         return new ResponseEntity<>(myUsers, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Retrieves User based on userid", response = User.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "User Found", response = User.class),
+            @ApiResponse(code = 404, message = "User Not Found", response = ErrorDetail.class)
+    })
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/user/{userId}",
                 produces = {"application/json"})
@@ -53,6 +62,7 @@ public class UserController
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Retrieves Username based on User Authentication", response = User.class)
     @GetMapping(value = "/getusername",
                 produces = {"application/json"})
     @ResponseBody
@@ -72,6 +82,12 @@ public class UserController
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Creates a new User", notes = "The newly created userid will be sent in the location header.", response = void.class)
+    @ApiResponses(value =  {
+            @ApiResponse(code = 201, message = "User Created", response = void.class),
+            @ApiResponse(code = 400, message = "Need Valid User Object", response = ErrorDetail.class),
+            @ApiResponse(code = 500, message = "Error Creating User", response = ErrorDetail.class)
+    })
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(value = "/user",
                  consumes = {"application/json"},
@@ -92,7 +108,11 @@ public class UserController
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
 
-
+    @ApiOperation(value = "Updates a current User by userid", response = void.class)
+    @ApiResponses(value =  {
+            @ApiResponse(code = 400, message = "Need Valid User Object", response = ErrorDetail.class),
+            @ApiResponse(code = 404, message = "User Not Found", response = ErrorDetail.class)
+    })
     @PutMapping(value = "/user/{id}")
     public ResponseEntity<?> updateUser(HttpServletRequest request,
                                         @RequestBody
@@ -106,7 +126,10 @@ public class UserController
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    @ApiOperation(value = "Deletes a User by userid", response = void.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "User Not Found", response = ErrorDetail.class)
+    })
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/user/{id}")
     public ResponseEntity<?> deleteUserById(HttpServletRequest request,
