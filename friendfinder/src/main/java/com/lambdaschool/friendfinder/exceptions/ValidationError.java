@@ -1,5 +1,7 @@
 package com.lambdaschool.friendfinder.exceptions;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class ValidationError
 {
     private String Code;
