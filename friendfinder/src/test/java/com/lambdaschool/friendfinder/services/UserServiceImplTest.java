@@ -3,6 +3,7 @@ package com.lambdaschool.friendfinder.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.lambdaschool.friendfinder.FriendFinderApplication;
+import com.lambdaschool.friendfinder.models.User;
 import com.lambdaschool.friendfinder.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,30 +39,34 @@ class UserServiceImplTest {
     }
 
     @Test
-    void loadUserByUsername() throws Exception {
-    }
-
-    @Test
     void findUserById() throws Exception {
+        assertEquals("admin", userService.findUserById(13).getUsername());
     }
 
     @Test
     void findUserByName() throws Exception {
+        assertEquals("admin", userService.findUserByName("admin").getUsername());
     }
 
     @Test
     void findAll() throws Exception {
+        assertEquals(6, userService.findAll().size());
     }
 
     @Test
     void delete() throws Exception {
+        userService.delete(16);
+        assertEquals(5, userService.findAll().size());
     }
 
     @Test
     void save() throws Exception {
-    }
+        User u1 = new User("new", "password");
 
-    @Test
-    void update() throws Exception {
+        User newUser = userService.save(u1);
+
+        assertNotNull(newUser);
+
+        assertEquals(newUser.getUsername(), userService.findUserByName(newUser.getUsername()).getUsername());
     }
 }
