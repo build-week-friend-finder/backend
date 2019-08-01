@@ -69,12 +69,12 @@ public class ProfileController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Creates a new Profile.", notes = "", response = void.class)
+    @ApiOperation(value = "Creates a new Profile by Authentication.", notes = "", response = void.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Profile Created Successfully", response = void.class),
             @ApiResponse(code = 500, message = "Error Creating Profile", response = ErrorDetail.class)
     } )
-    @PostMapping(value = "/profile", produces = {"application/json"})
+    @PostMapping(value = "/createprofile", produces = {"application/json"})
     public ResponseEntity<?> createProfile(@Valid Authentication authentication, @RequestBody Profile profile)  throws URISyntaxException {
         User u = userService.findUserByName(authentication.getName());
         long userid = u.getUserid();
@@ -85,14 +85,20 @@ public class ProfileController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Updates a current Profile by userid", response = void.class)
+    @ApiOperation(value = "Updates a current Profile by Authentication", response = void.class)
     @ApiResponses(value =  {
             @ApiResponse(code = 400, message = "Need Valid Profile Object", response = ErrorDetail.class),
-            @ApiResponse(code = 404, message = "Profile Not Found", response = ErrorDetail.class)
+            @ApiResponse(code = 404, message = "Profile Not Found", response = ErrorDetail.class),
+            @ApiResponse(code = 500, message = "Error Creating Profile", response = ErrorDetail.class)
     })
-    @PutMapping(value = "/profile/{userid}", produces = {"application/json"})
-    public ResponseEntity<?> updateProfileByUserId(@Valid @RequestBody Profile profile, @PathVariable long userid) {
-        profileService.update(profile, userid);
+    @PutMapping(value = "/updateprofile", produces = {"application/json"})
+    public ResponseEntity<?> updateProfileByUserId(@Valid Authentication authentication, @RequestBody Profile profile) {
+        User u = userService.findUserByName(authentication.getName());
+        long profileid = u.getProfile().getProfileid();
+
+        profile.setProfileid(profileid);
+
+        profileService.update(profile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

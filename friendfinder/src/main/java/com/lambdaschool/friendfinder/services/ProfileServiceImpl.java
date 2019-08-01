@@ -37,6 +37,11 @@ public class ProfileServiceImpl implements ProfileService {
         return profilerepos.findById(profileid).orElseThrow(() -> new ResourceNotFoundException(Long.toString(profileid)));
     }
 
+    @Override
+    public Profile findProfileByProfileId(long profileid) throws ResourceNotFoundException {
+        return profilerepos.findById(profileid).orElseThrow(() -> new ResourceNotFoundException(Long.toString(profileid)));
+    }
+
     @Transactional
     @Override
     public Profile save(Profile profile) {
@@ -67,10 +72,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile update(Profile profile, long userid) {
-        User u = userrepos.findById(userid).orElseThrow(() -> new EntityNotFoundException(Long.toString(userid)));
-        long profileid = u.getProfile().getProfileid();
-
+    public Profile update(Profile profile) {
+        long profileid = profile.getProfileid();
         Profile currentProfile = profilerepos.findById(profileid).orElseThrow(() -> new EntityNotFoundException(Long.toString(profileid)));
 
         if (profile.getName() != null) {

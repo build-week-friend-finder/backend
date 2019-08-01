@@ -10,9 +10,11 @@ public interface ProfileService {
 
     Profile findProfileById(long userid);
 
+    Profile findProfileByProfileId(long profileid);
+
     Profile save(Profile profile);
 
-    Profile update(Profile profile, long userid);
+    Profile update(Profile profile);
 
     Profile assign(long profileid, long userid);
 }
