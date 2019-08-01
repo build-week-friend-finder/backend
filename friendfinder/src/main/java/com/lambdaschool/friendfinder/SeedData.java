@@ -61,8 +61,8 @@ public class SeedData implements CommandLineRunner
         u1Interests.add(i4);
 
         // prepopulating profiles
-        Profile p1 = new Profile("Jack", "M", "Ever take the chance to think 'Why am I here?'", u1Interests);
-
+        Profile p1 = new Profile("Jack", "M", "Ever take the chance to think 'Why am I here?'", u1Interests, new User());
+        profileService.save(p1);
 
         // admin, data, user
         ArrayList<UserRoles> admins = new ArrayList<>();
@@ -74,6 +74,7 @@ public class SeedData implements CommandLineRunner
         u1.setProfile(p1);
         userService.save(u1);
         userService.save(u10);
+        profileService.assign(10, 13);
 
         // data, user
         ArrayList<UserRoles> datas = new ArrayList<>();
@@ -97,7 +98,5 @@ public class SeedData implements CommandLineRunner
         users.add(new UserRoles(new User(), r2));
         User u5 = new User("Jane", "password", users);
         userService.save(u5);
-
-        profileService.save(p1, 10);
     }
 }

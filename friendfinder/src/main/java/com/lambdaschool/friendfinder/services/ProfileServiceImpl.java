@@ -39,9 +39,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Transactional
     @Override
-    public Profile save(Profile profile, long userid) {
-        User u = userrepos.findById(userid).orElseThrow(() -> new ResourceNotFoundException(Long.toString(userid)));
-
+    public Profile save(Profile profile) {
         Profile newProfile = new Profile();
         newProfile.setName(profile.getName());
         newProfile.setDescription(profile.getDescription());
@@ -53,12 +51,19 @@ public class ProfileServiceImpl implements ProfileService {
         }
         newProfile.setInterests(newInterests);
 
-        newProfile.setUser(u);
-
-        u.setProfile(newProfile);
-        userrepos.save(u);
-
         return profilerepos.save(newProfile);
+    }
+
+    @Override
+    public Profile assign(long profileid, long userid) {
+        User u = userrepos.findById(userid).orElseThrow(() -> new EntityNotFoundException(Long.toString(userid)));
+        Profile p = profilerepos.findById(profileid).orElseThrow(() -> new EntityNotFoundException(Long.toString(profileid)));
+
+        u.setProfile(p);
+        p.setUser(u);
+
+        userrepos.save(u);
+        return profilerepos.save(p);
     }
 
     @Override

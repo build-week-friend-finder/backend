@@ -50,6 +50,14 @@ public class Profile extends Auditable {
         this.interests = interests;
     }
 
+    public Profile(String name, String gender, String description, List<Interests> interests, User user) {
+        this.name = name;
+        this.gender = gender;
+        this.description = description;
+        this.interests = interests;
+        this.user = user;
+    }
+
     public long getProfileid() {
         return profileid;
     }

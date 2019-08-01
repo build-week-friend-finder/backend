@@ -79,9 +79,8 @@ public class ProfileController {
         User u = userService.findUserByName(authentication.getName());
         long userid = u.getUserid();
 
-        profile = profileService.save(profile, userid);
-        u.setProfile(profile);
-        userService.save(u);
+        profile = profileService.save(profile);
+        profileService.assign(profile.getProfileid(), userid);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
