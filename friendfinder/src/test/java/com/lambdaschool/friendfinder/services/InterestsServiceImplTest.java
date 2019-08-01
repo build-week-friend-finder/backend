@@ -3,6 +3,7 @@ package com.lambdaschool.friendfinder.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.lambdaschool.friendfinder.FriendFinderApplication;
+import com.lambdaschool.friendfinder.models.Interests;
 import com.lambdaschool.friendfinder.repository.InterestsRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,25 +36,38 @@ class InterestsServiceImplTest {
 
     @AfterEach
     void tearDown() {
+
     }
 
     @Test
     void findAll() throws Exception {
+        assertEquals(8, interestsService.findAll().size());
     }
 
     @Test
     void findInterestsById() throws Exception {
+        assertEquals("Basketball", interestsService.findInterestsById(4).getInterestname());
     }
 
     @Test
     void delete() throws Exception {
+        interestsService.delete(4);
+        assertEquals(7, interestsService.findAll().size());
     }
 
     @Test
     void save() throws Exception {
+        Interests i10 = new Interests("Dunking");
+        interestsService.save(i10);
+
+        assertEquals(9, interestsService.findAll().size());
     }
 
     @Test
     void update() throws Exception {
+        Interests updateInterests = new Interests("Bowling");
+        interestsService.update(updateInterests, 4);
+
+        assertEquals("Bowling", interestsService.findInterestsById(4).getInterestname());
     }
 }
